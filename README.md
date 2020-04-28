@@ -1,3 +1,4 @@
+
 # 阅小说App接口文档
 
 **所有人都可以调用相关的接口，接口不做任何身份验证。仅供大家开发交流使用。如有任何疑问可以通过以下方式联系我。**
@@ -14,6 +15,8 @@
 
 ---
 
+<!-- TOC -->autoauto- [阅小说App接口文档](#阅小说app接口文档)auto    - [HTTP接口](#http接口)auto        - [书架](#书架)auto            - [批量检查书籍是否有更新](#批量检查书籍是否有更新)auto            - [搜索书籍](#搜索书籍)auto        - [发现](#发现)auto            - [发现页](#发现页)auto            - [分类](#分类)auto            - [榜单](#榜单)auto            - [榜单列表](#榜单列表)auto            - [完本](#完本)auto            - [专题](#专题)auto            - [专题列表](#专题列表)auto            - [发现页查看全部](#发现页查看全部)auto            - [书城](#书城)auto            - [分类书籍列表](#分类书籍列表)auto            - [书籍详情](#书籍详情)auto            - [书籍推荐](#书籍推荐)auto            - [书籍目录](#书籍目录)auto            - [书籍章节下载](#书籍章节下载)auto        - [其他](#其他)auto            - [配置接口](#配置接口)autoauto<!-- /TOC -->
+
 ## HTTP接口
 
 HTTP的域名为 **<http://yuenov.com>**
@@ -22,7 +25,7 @@ HTTP的域名为 **<http://yuenov.com>**
 
 **目前除了80端口还开放了`15555` `16666` `17777` `18888` `19999`这几个端口，强烈建议使用这几个端口进行访问，访问的格式为*域名+端口+路径*。例如**
 
-**<http://yuenov.com:15555>/path**
+<span id="domain">**<http://yuenov.com:15555>/path**
 
 HTTP接口返回的数据统一的格式为：
 
@@ -70,7 +73,7 @@ HTTP接口返回的数据统一的格式为：
   </tr>
   <tr>
     <td>请求方式</td>
-    <td colspan=4>POST <code>application/json格式</code></td>
+    <td colspan=4>POST <code>application/json</code></td>
   </tr>
   <tr>
     <td rowspan=2>参数</td>
@@ -83,24 +86,705 @@ HTTP接口返回的数据统一的格式为：
     <td><code>books</code></td>
 	<td>List</td>
 	<td>是</td>
-	<td>检查更新的书籍列表<ul><li><code>bookId</code> : <code>Integer类型</code> 需要检查更新的书籍号</li><li><code>chapterId</code> : <code>Long类型</code> 需要检查更新的书籍最后一章的章节号</li></ul> </tr></td>
+	<td>检查更新的书籍列表，每个对象的信息如下<ul><li><code>bookId</code> : <code>Integer类型</code> 需要检查更新的书籍号</li><li><code>chapterId</code> : <code>Long类型</code> 需要检查更新的书籍最后一章的章节号</li></ul> </td>
+  </tr>
 </table>
+
 返回结果
 
-|名称|类型|说明|
-| ------------ | ------------ | ------------ |
-|`updateList`| List|需要更新的书籍列表<ul><li><code>bookId</code> : <code>Integer类型</code> 需要检查更新的书籍号</li><li><code>chapterId</code> : <code>Long类型</code> 需要检查更新的书籍最后一章的章节号</li></ul>|
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ | ------------ |
+|`updateList`| List|否|需要更新的书籍列表，每个对象的信息如下<ul><li><code>bookId</code> : <code>Integer类型</code> 需要检查更新的书籍号</li><li><code>chapterId</code> : <code>Long类型</code> 需要检查更新的书籍最后一章的章节号</li></ul>
 
 
+#### 搜索书籍
+根据关键词搜索书籍
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/book/search</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=4>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>keyWord</code></td>
+	  <td>String</td>
+	  <td>是</td>
+	  <td>书籍关键词</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+</table>
+
+返回的结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否|搜索的结果书籍列表
+|`pageNum`|Integer|否|请求第几页数据
+|`pageSize`|Integer|否|请求每页多少条的数据
+|`total`|Integer|否|实际返回多少条数据
+
+<span id="book">书籍的字段定义如下
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`author`| String|否|作者
+|`bookId`|Integer|是|书籍号
+|`categoryName`|String|是|书籍所属分类
+|`chapterStatus`|String|否|书籍连载状态<ul><li>`END` : `String类型` 书籍已完结</li><li>`SERIALIZE` : `String类型` 书籍连载中</li></ul>
+|`coverImg`| String|否|书籍的封面路径，**返回的是书籍封面的路径并非URL地址，需要手动拼接上*域名+端口*参考[这里](#domain)**
+|`desc`|String|否|书籍内容介绍
+|`title`|String|否|书籍的名称
+|`word`|String|否|书籍的字数
+
+### 发现
+#### 发现页
+App内发现页面接口
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/category/discovery</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=3>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 发现页书籍分类列表，每个列表有以下数据<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`categoryName` : `String类型` 每个分类的名称</li><li>`type` : `String类型` 每个分类的类型<ul><li>`READ_MOST` : `String类型` 大家都在看</li><li>`RECENT_UPDATE` : `String类型` 最近更新</li><li>`CATEGORY` : `String类型` 书籍分类</li></ul></li><li>`categoryId` : `Integer类型` 只有当**type=CATEGORY**时才有值表示书籍分类号</li></ul>
+
+#### 分类
+
+书籍的全部分类
+
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/category/getCategoryChannel</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`channels`| List|否| 获取所有的频道分类目前有男生频道和女生频道每个对象包含以下字段<ul><li>`categories` : `List类型` 分类信息列表</li><li>`channelId` : `Integer类型` 频道号</li><li>`channelName` : `String类型` 频道名称</li></ul>
+
+分类信息的字段定义如下：
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`categoryId`| Integer |是| 分类号
+|`categoryName`| String|否| 分类名
+|`coverImgs`| List|否| 分类的封面列表，包含该分类排名前三书籍的封面路径**并非URL地址，需要手动拼接上*域名+端口*参考[这里](#domain)**
+
+#### 榜单
+书籍榜单信息
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/rank/getList</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`channels`| List|否| 获取所有的频道榜单目前有男生频道和女生频道每个对象包含以下字段<ul><li>`ranks` : `List类型` 榜单信息列表</li><li>`channelId` : `Integer类型` 频道号</li><li>`channelName` : `String类型` 频道名称</li></ul>
+
+榜单信息的字段定义如下：
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`rankId`| Integer |是| 榜单号
+|`rankName`| String|否| 榜单名
+|`coverImgs`| List|否| 榜单的封面列表，包含该榜单排名前三书籍的封面路径**并非URL地址，需要手动拼接上*域名+端口*参考[这里](#domain)**
+
+#### 榜单列表
+每个榜单内的书籍列表
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/rank/getPage</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=5>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>channelId</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>频道号</td>
+  </tr>
+  <tr>
+    <td><code>rankId</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>榜单号</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 榜单书籍列表，每个书籍的定义在[这里](#book)
+|`pageNum`| Integer|否| 请求第几页的数据，pageNum最小值为1
+|`pageSize`| Integer|否| 请求每页多少条的数据
+|`total`| Integer|否|总共有多少条数据
 
 
+#### 完本
+所有完本书籍信息
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/category/getCategoryEnd</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=3>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+</table>
+
+返回数据
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 发现页书籍分类列表，每个列表有以下数据<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`categoryName` : `String类型` 每个分类的名称</li><li>`categoryId` : `Integer类型` 书籍分类号</li></ul>
+|`pageNum`| Integer|否| 请求第几页的数据，pageNum最小值为1
+|`pageSize`| Integer|否| 请求每页多少条的数据
+|`total`| Integer|否|总共有多少条数据
+
+#### 专题
+书籍专题信息
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/book/getSpecialList</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=3>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`specialList`| List|否| 发现页书籍分类列表，每个列表有以下数据<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`name` : `String类型` 每个专题的名称</li><li>`id` : `Integer类型` 专题号</li></ul>
+
+#### 专题列表
+专题下全部的书籍和换一换列表
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/book/getSpecialPage</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=4>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>id</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>专题号</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 专题的书籍列表，每个书籍的定义在[这里](#book)
+|`pageNum`| Integer|否| 请求第几页的数据，pageNum最小值为1
+|`pageSize`| Integer|否| 请求每页多少条的数据
+|`total`| Integer|否|总共有多少条数据
+
+#### 发现页查看全部
+
+发现页每个类别查看全部与换一换
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/category/discoveryAll</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=5>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+  <tr>
+    <td><code>type</code></td>
+	  <td>String</td>
+	  <td>是</td>
+	  <td>发现页的分类类型<ul><li><code>READ_MOST</code> : <code>String类型</code> 大家都在看</li><li><code>RECENT_UPDATE</code> : <code>String类型</code> 最近更新</li><li><code>CATEGORY</code> : <code>String类型</code> 书籍分类</li></ul></td>
+  </tr>
+  <tr>
+    <td><code>categoryId</code></td>
+	  <td>Integer</td>
+	  <td>否</td>
+	  <td>书籍分类号仅当type=CATEGORY有效</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 发现页某个分类的书籍列表，每个书籍的定义在[这里](#book)
+|`pageNum`| Integer|否| 请求第几页的数据，pageNum最小值为1
+|`pageSize`| Integer|否| 请求每页多少条的数据
+|`total`| Integer|否|总共有多少条数据
+
+#### 书城
+
+#### 分类书籍列表
+某个分类下所有的书籍
+
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/book/getCategoryId</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=6>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+  <tr>
+    <td><code>categoryId</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>书籍所属的分类号</td>
+  </tr>
+  <tr>
+    <td><code>channelId</code></td>
+	  <td>Integer</td>
+	  <td>否</td>
+	  <td>某个频道下的分类书籍</td>
+  </tr>
+  <tr>
+    <td><code>orderBy</code></td>
+	  <td>String</td>
+	  <td>否</td>
+	  <td>分类书籍排序与筛选规则，不传返回全部书籍默认排序<ul><li><code>NEWEST</code> : <code>String类型</code> 按照最新的书籍进行排序</li><li><code>HOT</code> : <code>String类型</code> 按照最火爆的书籍进行排序</li><li><code>END</code> : <code>String类型</code> 筛选已完结的书籍</li></ul></td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 分类的书籍列表，每个书籍的定义在[这里](#book)
+|`pageNum`| Integer|否| 请求第几页的数据，pageNum最小值为1
+|`pageSize`| Integer|否| 请求每页多少条的数据
+|`total`| Integer|否|总共有多少条数据
+
+#### 书籍详情
+每本书的详细信息
+
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/book/getDetail</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=2>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>bookId</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>书籍号</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`author`| String |否| 书籍作者
+|`bookId`| Integer|是| 书籍号
+|`categoryName`| String|是| 书籍所属分类名
+|`chapterNum`| Integer|否|总共有多少章节
+|`coverImg`| String|否|书籍的封面路径，**返回的是书籍封面的路径并非URL地址，需要手动拼接上*域名+端口*参考[这里](#domain)**
+|`desc`| String|否|书籍内容介绍
+|`title`| String|否|书籍的名称
+|`update`| Object|否|书籍更新信息包含以下字段<ul><li>`chapterId` : `Long类型` 最新的章节号</li><li>`chapterName` : `String类型` 最新的章节名称</li><li>`chapterStatus` : `String类型` 书籍连载状态<ul><li>`END` : `String类型` 书籍已完结</li><li>`SERIALIZE` : `String类型` 书籍连载中</li></ul></li><li>`time` : `Date类型` 书籍最近更新时间</li></ul>
+|`word`| String|否|书籍的字数
+|`recommend`| List|否|相关书籍推荐列表，每个书籍的定义在[这里](#book)
 
 
+#### 书籍推荐
+在书籍详情中的推荐列表和换一换
+
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/book/getRecommend</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=4>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>bookId</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>书籍号</td>
+  </tr>
+  <tr>
+    <td><code>pageNum</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求第几页的数据，pageNum最小值为1</td>
+  </tr>
+  <tr>
+    <td><code>pageSize</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>请求每页多少条的数据</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 书籍推荐列表，每个书籍的定义在[这里](#book)
+|`pageNum`| Integer|否| 请求第几页的数据，pageNum最小值为1
+|`pageSize`| Integer|否| 请求每页多少条的数据
+|`total`| Integer|否|当前请求有多少条数据
+
+#### 书籍目录
+获取书籍目录，这个接口一般用于书籍更新，当书籍有更新时需要调用该接口来更新本地保存的目录信息，传入chapterId获取此章节之后的数据，否则不传是获取全部目录。如果本地有保存的目录建议做好传入chapterId
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/chapter/getByBookId</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+  <tr>
+    <td rowspan=4>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+  <tr>
+    <td><code>bookId</code></td>
+	  <td>Integer</td>
+	  <td>是</td>
+	  <td>书籍号</td>
+  </tr>
+  <tr>
+    <td><code>chapterId</code></td>
+	  <td>Long</td>
+	  <td>否</td>
+	  <td>从第几章开始请求目录信息，如果不传请求全部的目录信息</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`author`| String|否| 作者
+|`bookId`| Integer|是| 书籍号
+|`coverImg`| String|否| **返回的是书籍封面的路径并非URL地址，需要手动拼接上*域名+端口*参考[这里](#domain)**
+|`desc`| String|否|书籍内容介绍
+|`title`| String|否|书籍的名称
+|`word`| String|否|书籍的字数
+|`chapters`|List|书籍的目录列表，每个目录包含以下字段<ul><li>`id` : `Long类型` 章节号 </li><li>`name` : `String类型` 章节名 </li></ul>
 
 
+#### 书籍章节下载
+下载章节内容，支持批量下载
 
+**下载限制：当传入的章节数大于500时，后台默认最多下载500章。如果全本下载或者批量下载大于500章的数据，建议轮询请求下载，直到全部下载完成**
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/chapter/get</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>POST <code>application/json</code></td>
+  </tr>
+  <tr>
+    <td rowspan=3>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+   <td><code>bookId</code></td>
+	<td>Integer</td>
+	<td>是</td>
+	<td>下载的书籍号</td>
+  </tr>
+  <tr>
+   <td><code>chapterIdList</code></td>
+	<td>List&ltLong&gt</td>
+	<td>是</td>
+	<td>下载的章节号列表</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 下载的章节内容，每个章节的字段如下<ul><li>`content` : `String类型` 章节内容</li><li>`id` : `Long类型` 章节号</li><li>`name` : `String类型` 章节名</li></ul>
+
+ #### 章节刷新
+
+ 刷新章节内容，获取最新的章节数据。与下载不一样，下载是获取服务器缓存的数据，但不是最新的数据。一般是下载的内容不正确时会调用该接口。该接口响应时间比较长，谨慎调用。
+
+ <table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/chapter/updateForce</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>POST <code>application/json</code></td>
+  </tr>
+  <tr>
+    <td rowspan=3>参数</td>
+    <td>名称</td>
+    <td>类型</td>
+	<td>必需</td>
+	<td>说明</td>
+  </tr>
+   <td><code>bookId</code></td>
+	<td>Integer</td>
+	<td>是</td>
+	<td>更新的书籍号</td>
+  </tr>
+  <tr>
+   <td><code>chapterIdList</code></td>
+	<td>List&ltLong&gt</td>
+	<td>是</td>
+	<td>更新的章节号列表</td>
+  </tr>
+</table>
+
+返回结果
+
+|名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`list`| List|否| 更新的章节内容，每个章节的字段如下<ul><li>`content` : `String类型` 章节内容</li><li>`id` : `Long类型` 章节号</li><li>`name` : `String类型` 章节名</li></ul>
+
+### 其他
+
+#### 配置接口
+
+获取热门搜索，书籍默认分类等配置信息，通常是在每次开机时启动
+
+
+<table>
+  <tr>
+    <th >路径</th>
+    <th colspan=4><code>/app/api/v1/system/getAppConfig</code></th>
+  </tr>
+  <tr>
+    <td>请求方式</td>
+    <td colspan=4>GET</td>
+  </tr>
+</table>
  
- 
+ 返回结果
+
+ |名称|类型|必需|说明|
+| ------------ | ------------ | ------------ |------------ |
+|`categories`| List|否| 书籍默认的分类列表，每个分类的字段如下<ul><li>`categoryId` : `Integer类型` 分类号</li><li>`categoryName` : `String类型` 分类名</li></ul>
+|`hotSearch`| List|否| 热搜书籍列表，每个书籍的定义在[这里](#book)
 
 
 
