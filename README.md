@@ -85,7 +85,9 @@ HTTP接口返回的数据统一的格式为：
 ### 书架
 
 #### 批量检查书籍是否有更新
-下载到本地的书籍在特定时机应该检查书籍是否有更新，使得本地的数据保持最新的状态。一般用于连载书籍检查是否有新章节更新
+下载到本地的书籍在特定时机应该检查书籍是否有更新，使得本地的数据保持最新的状态。一般用于连载书籍检查是否有新章节更新。
+
+与[/app/api/v1/chapter/getByBookId](#书籍目录)配合使用，来更新本地缓存的目录
 <table>
   <tr>
     <th >路径</th>
@@ -213,7 +215,7 @@ App内发现页面接口
 
 |名称|类型|必需|说明|
 | ------------ | ------------ | ------------ |------------ |
-|`list`| List|否| 发现页书籍分类列表，每个列表有以下数据<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`categoryName` : `String类型` 每个分类的名称</li><li>`type` : `String类型` 每个分类的类型<ul><li>`READ_MOST` : `String类型` 大家都在看</li><li>`RECENT_UPDATE` : `String类型` 最近更新</li><li>`CATEGORY` : `String类型` 书籍分类</li></ul></li><li>`categoryId` : `Integer类型` 只有当**type=CATEGORY**时才有值表示书籍分类号</li></ul>
+|`list`| List|否| 发现页书籍分类列表，列表中每个对象有以下字段<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`categoryName` : `String类型` 每个分类的名称</li><li>`type` : `String类型` 每个分类的类型<ul><li>`READ_MOST` : `String类型` 大家都在看</li><li>`RECENT_UPDATE` : `String类型` 最近更新</li><li>`CATEGORY` : `String类型` 书籍分类</li></ul></li><li>`categoryId` : `Integer类型` 只有当**type=CATEGORY**时才有值表示书籍分类号</li></ul>
 
 #### 分类
 
@@ -234,7 +236,7 @@ App内发现页面接口
 
 |名称|类型|必需|说明|
 | ------------ | ------------ | ------------ |------------ |
-|`channels`| List|否| 获取所有的频道分类目前有男生频道和女生频道每个对象包含以下字段<ul><li>`categories` : `List类型` 分类信息列表</li><li>`channelId` : `Integer类型` 频道号</li><li>`channelName` : `String类型` 频道名称</li></ul>
+|`channels`| List|否| 获取所有的频道分类列表，目前有男生频道和女生频道，列表中每个对象包含以下字段<ul><li>`categories` : `List类型` 分类信息列表</li><li>`channelId` : `Integer类型` 频道号</li><li>`channelName` : `String类型` 频道名称</li></ul>
 
 分类信息的字段定义如下：
 
@@ -242,7 +244,7 @@ App内发现页面接口
 | ------------ | ------------ | ------------ |------------ |
 |`categoryId`| Integer |是| 分类号
 |`categoryName`| String|否| 分类名
-|`coverImgs`| List|否| 分类的封面列表，包含该分类排名前三书籍的封面路径**并非URL地址，需要手动拼接上*域名+端口*参考[这里](#domain)**
+|`coverImgs`| List\<String\>|否| 分类的封面列表，包含该分类排名前三书籍的封面路径**并非URL地址，需要手动拼接上*域名+端口*参考[这里](#domain)**
 
 #### 榜单
 书籍榜单信息
@@ -361,7 +363,7 @@ App内发现页面接口
 
 |名称|类型|必需|说明|
 | ------------ | ------------ | ------------ |------------ |
-|`list`| List|否| 发现页书籍分类列表，每个列表有以下数据<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`categoryName` : `String类型` 每个分类的名称</li><li>`categoryId` : `Integer类型` 书籍分类号</li></ul>
+|`list`| List|否| 全部完结书籍的分类列表，列表中每个对象有以下字段<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`categoryName` : `String类型` 每个分类的名称</li><li>`categoryId` : `Integer类型` 书籍分类号</li></ul>
 |`pageNum`| Integer|否| 请求第几页的数据，pageNum最小值为1
 |`pageSize`| Integer|否| 请求每页多少条的数据
 |`total`| Integer|否|总共有多少条数据
@@ -402,7 +404,7 @@ App内发现页面接口
 
 |名称|类型|必需|说明|
 | ------------ | ------------ | ------------ |------------ |
-|`specialList`| List|否| 发现页书籍分类列表，每个列表有以下数据<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`name` : `String类型` 每个专题的名称</li><li>`id` : `Integer类型` 专题号</li></ul>
+|`specialList`| List|否| 全部的专题列表，列表中每个对象有以下字段<ul><li>`bookList` : `List类型` 书籍列表，每个书籍的定义在[这里](#book)</li><li>`name` : `String类型` 每个专题的名称</li><li>`id` : `Integer类型` 专题号</li></ul>
 
 #### 专题列表
 专题下全部的书籍和换一换列表
@@ -453,7 +455,7 @@ App内发现页面接口
 
 #### 发现页查看全部
 
-发现页每个类别查看全部与换一换
+查看发现页分类的全部或部分内容（查看全部，换一换）
 <table>
   <tr>
     <th >路径</th>
@@ -492,7 +494,7 @@ App内发现页面接口
     <td><code>categoryId</code></td>
 	  <td>Integer</td>
 	  <td>否</td>
-	  <td>书籍分类号仅当type=CATEGORY有效</td>
+	  <td>书籍分类号，仅当type=CATEGORY有效</td>
   </tr>
 </table>
 
@@ -659,7 +661,7 @@ App内发现页面接口
 |`total`| Integer|否|当前请求有多少条数据
 
 #### 书籍目录
-获取书籍目录，这个接口一般用于书籍更新，当书籍有更新时需要调用该接口来更新本地保存的目录信息，传入chapterId获取此章节之后的数据，否则不传是获取全部目录。如果本地有保存的目录建议做好传入chapterId
+获取书籍全部或部分目录信息，当书籍有更新时需要调用该接口来更新本地保存的目录信息，传入chapterId获取此章节之后的数据，不传chapterId是获取全部目录。如果本地已经保存过目录信息，建议最好传入最后一章chapterId来更新本地目录。而不是全量获取所有的目录。
 <table>
   <tr>
     <th >路径</th>
