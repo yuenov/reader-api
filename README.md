@@ -91,11 +91,11 @@ HTTP接口返回的数据统一的格式为：
 #### 批量检查书籍是否有更新
 下载到本地的书籍在特定时机应该检查书籍是否有更新，使得本地的数据保持最新的状态。一般用于连载书籍检查是否有新章节更新。
 
-与[/app/api/v1/chapter/getByBookId](#书籍目录)配合使用，来更新本地缓存的目录
+与[/app/open/api/chapter/getByBookId](#书籍目录)配合使用，来更新本地缓存的目录
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/api/v1/book/checkUpdate</code></th>
+    <th colspan=4><code>/app/open/api/book/checkUpdate</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -128,7 +128,7 @@ HTTP接口返回的数据统一的格式为：
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/book/search</code></th>
+    <th colspan=4><code>/app/open/api/book/search</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -188,7 +188,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/category/discovery</code></th>
+    <th colspan=4><code>/app/open/api/category/discovery</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -228,7 +228,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/category/getCategoryChannel</code></th>
+    <th colspan=4><code>/app/open/api/category/getCategoryChannel</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -255,7 +255,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/rank/getList</code></th>
+    <th colspan=4><code>/app/open/api/rank/getList</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -282,7 +282,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/rank/getPage</code></th>
+    <th colspan=4><code>/app/open/api/rank/getPage</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -336,7 +336,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/category/getCategoryEnd</code></th>
+    <th colspan=4><code>/app/open/api/category/getCategoryEnd</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -377,7 +377,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/book/getSpecialList</code></th>
+    <th colspan=4><code>/app/open/api/book/getSpecialList</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -415,7 +415,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/book/getSpecialPage</code></th>
+    <th colspan=4><code>/app/open/api/book/getSpecialPage</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -463,7 +463,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/category/discoveryAll</code></th>
+    <th colspan=4><code>/app/open/api/category/discoveryAll</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -519,7 +519,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/book/getCategoryId</code></th>
+    <th colspan=4><code>/app/open/api/book/getCategoryId</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -579,7 +579,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/book/getDetail</code></th>
+    <th colspan=4><code>/app/open/api/book/getDetail</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -622,7 +622,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/book/getRecommend</code></th>
+    <th colspan=4><code>/app/open/api/book/getRecommend</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -669,7 +669,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/chapter/getByBookId</code></th>
+    <th colspan=4><code>/app/open/api/chapter/getByBookId</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -715,7 +715,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/chapter/get</code></th>
+    <th colspan=4><code>/app/open/api/chapter/get</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -754,7 +754,7 @@ App内发现页面接口
  <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/chapter/updateForce</code></th>
+    <th colspan=4><code>/app/open/api/chapter/updateForce</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
@@ -796,7 +796,7 @@ App内发现页面接口
 <table>
   <tr>
     <th >路径</th>
-    <th colspan=4><code>/app/api/v1/system/getAppConfig</code></th>
+    <th colspan=4><code>/app/open/api/system/getAppConfig</code></th>
   </tr>
   <tr>
     <td>请求方式</td>
