@@ -13,7 +13,7 @@
 
 **阅小说App下载地址：**
 
- **<http://yuenov.com>**
+ **[http://yuenov.com](http://yuenov.com?ch=g)**
 
  <img src="img/qrcode.png" width = "100" height = "100" alt="" align=center />
 
