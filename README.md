@@ -52,6 +52,10 @@ HTTP的域名为 **<http://yuenov.com>**
 
 <span id="domain">**<http://yuenov.com:15555>/path**
 
+**阅小说图片访问的格式示例**
+
+<span>**<http://pt.yuenov.com:15555>/path**
+
 HTTP接口返回的数据统一的格式为：
 
 ``` json
