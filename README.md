@@ -13,6 +13,9 @@
 
 *Gmail*: <yuenov@gmail.com>
 
+**注意：不要抓包使用阅小说App内的接口，阅小说App内的接口专属阅小说App使用
+接口使用客户端内算法动态加密，生成的密钥有时效性限制。**
+
 **阅小说App下载地址：**
 
  **[http://yuenov.com](http://yuenov.com?ch=g)**
