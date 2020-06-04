@@ -1,7 +1,9 @@
 
 # 阅小说App接口文档
 
-**会陆续开源iOS，Android的客户端代码**
+[阅小说iOS客户端源码](https://github.com/yuenov/reader-ios)
+
+[阅小说Android客户端源码](https://github.com/yuenov/reader-android)
 
 **所有人都可以调用相关的接口，接口不做任何身份验证。仅供大家开发交流使用。**
 
