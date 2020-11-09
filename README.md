@@ -205,25 +205,6 @@ App内发现页面接口
     <td>请求方式</td>
     <td colspan=4>GET</td>
   </tr>
-  <tr>
-    <td rowspan=3>参数</td>
-    <td>名称</td>
-    <td>类型</td>
-	<td>必需</td>
-	<td>说明</td>
-  </tr>
-  <tr>
-    <td><code>pageNum</code></td>
-	  <td>Integer</td>
-	  <td>是</td>
-	  <td>请求第几页的数据，pageNum最小值为1</td>
-  </tr>
-  <tr>
-    <td><code>pageSize</code></td>
-	  <td>Integer</td>
-	  <td>是</td>
-	  <td>请求每页多少条的数据</td>
-  </tr>
 </table>
 
 返回结果
