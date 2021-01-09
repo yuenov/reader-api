@@ -88,6 +88,7 @@ HTTP接口返回的数据统一的格式为：
 |0|返回数据正确|
 |101|新用户创建成功|
 |102|未查询到数据|
+|203|书源已经失效|
 |1001|参数校验出错|
 |1002|返回值异常|
 |1003|非法请求|
@@ -698,11 +699,17 @@ App内发现页面接口
 |`desc`| String|否|书籍内容介绍
 |`title`| String|否|书籍的名称
 |`word`| String|否|书籍的字数
-|`chapters`|List|书籍的目录列表，每个目录包含以下字段<ul><li>`id` : `Long类型` 章节号 </li><li>`name` : `String类型` 章节名 </li></ul>
+|`chapters`|List|书籍的目录列表，每个目录包含以下字段<ul><li>`id` : `Long类型` 章节号 </li><li>`name` : `String类型` 章节名 </li><li>`v` : `Integer类型` **书籍的版本号，非常重要，书籍下载接口`/app/open/api/chapter/get`需要传递这个参数** </li></ul>
 
 
 #### 书籍章节下载
 下载章节内容，**目前开放接口不支持批量下载**
+
+由于书源失效会导致部分书籍不可访问。如果错误码为`203`表示书源已经失效，此时服务器会自动更新书源。<br>
+如果书源失效并返回`203`请重新调用书籍目录接口`/app/open/api/chapter/getByBookId`来获取最新的目录信息 <br>
+此时当前接口需要传递`v`这个参数，这个参数由`/app/open/api/chapter/getByBookId`接口返回。<br>
+`v`表示当前此书籍的版本。默认为`0`，表示此书籍的书源没有失效过。`1`表示为此书籍的书源更新过一次。<br>
+`/app/open/api/chapter/getByBookId`返回`v=1`,如果当前接口传`v=0`表示从旧书源获取内容，会导致获取内容失败。<br>
 
 <table>
   <tr>
@@ -714,7 +721,7 @@ App内发现页面接口
     <td colspan=4>POST <code>application/json</code></td>
   </tr>
   <tr>
-    <td rowspan=3>参数</td>
+    <td rowspan=4>参数</td>
     <td>名称</td>
     <td>类型</td>
 	<td>必需</td>
@@ -730,6 +737,12 @@ App内发现页面接口
 	<td>List&ltLong&gt</td>
 	<td>是</td>
 	<td>下载的章节号列表</td>
+  </tr>
+  <tr>
+   <td><code>v</code></td>
+	<td>Integer</td>
+	<td>否</td>
+	<td>书籍的版本号</td>
   </tr>
 </table>
 
