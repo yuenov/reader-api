@@ -20,9 +20,10 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     
     - name: config gitbook
-      run: npm install -g gitbook-cli
-      run: gitbook install
-      run: gitbook build 
+      run: |
+        npm install -g gitbook-cli
+        gitbook install
+        gitbook build 
     
     - name: push _book to branch gh-pages
       env:
