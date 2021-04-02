@@ -8,24 +8,24 @@ jobs:
     runs-on: ubuntu-latest
 
   steps:
-    - name: checkout master
+    - name: checkout-master
       uses: action/checkout@v2
       with:
         ref: master
 
-    - name: install nodejs
+    - name: install-nodejs
       uses: actions/setup-node@v2
       with:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
     
-    - name: config gitbook
+    - name: config-gitbook
       run: |
         npm install -g gitbook-cli
         gitbook install
         gitbook build 
     
-    - name: push _book to branch gh-pages
+    - name: push-_book-to-branch-gh-pages
       env:
         TOKEN: ${{ secrets.TOKEN }}
         REF: github.com/${{github.repository}}
