@@ -8,39 +8,35 @@ jobs:
     runs-on: ubuntu-latest
 
   steps:
-    - name: checkout-master
-      uses: action/checkout@v2
-      with:
-        ref: master
-
-    - name: install-nodejs
-      uses: actions/setup-node@v2
-      with:
-        node-version: '12.x'
-        registry-url: 'https://registry.npmjs.org'
-    
-    - name: config-gitbook
-      run: |
-        npm install -g gitbook-cli
-        gitbook install
-        gitbook build 
-    
-    - name: push-_book-to-branch-gh-pages
-      env:
-        TOKEN: ${{ secrets.TOKEN }}
-        REF: github.com/${{github.repository}}
-        MYEMAIL: 329106954@qq.com 
-        MYNAME: ${{github.repository_owner}}
-      run: |
-        cd _book
-        git config --global user.email "${MYEMAIL}"   
-        git config --global user.name "${MYNAME}"   
-        git init  
-        git remote add origin https://${REF}
-        git add .
-        git commit -m "Updated By Github Actions With Build ${{github.run_number}} of ${{github.workflow}} For Github Pages"
-        git branch -M master
-        git push --force --quiet "https://${TOKEN}@${REF}" master:gh-pages
+  - name: checkout-master
+    uses: action/checkout@v2
+    with:
+      ref: master
+  - name: install-nodejs
+    uses: actions/setup-node@v2
+    with:
+      node-version: '12.x'
+      registry-url: 'https://registry.npmjs.org'
   
-
- 
+  - name: config-gitbook
+    run: |
+      npm install -g gitbook-cli
+      gitbook install
+      gitbook build 
+  
+  - name: push-_book-to-branch-gh-pages
+    env:
+      TOKEN: ${{ secrets.TOKEN }}
+      REF: github.com/${{github.repository}}
+      MYEMAIL: 329106954@qq.com 
+      MYNAME: ${{github.repository_owner}}
+    run: |
+      cd _book
+      git config --global user.email "${MYEMAIL}"   
+      git config --global user.name "${MYNAME}"   
+      git init  
+      git remote add origin https://${REF}
+      git add .
+      git commit -m "Updated By Github Actions With Build ${{github.run_number}} of ${{github.workflow}} For Github Pages"
+      git branch -M master
+      git push --force --quiet "https://${TOKEN}@${REF}" master:gh-pages
