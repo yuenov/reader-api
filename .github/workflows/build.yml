@@ -15,14 +15,14 @@ jobs:
       - name: install-nodejs
         uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       
       - name: config-gitbook
         run: |
-          npm install -g gitbook-cli
-          gitbook install
-          gitbook build 
+          npm install
+          npm run bookinstall
+          npm run build
       
       - name: push-_book-to-branch-gh-pages
         env:
