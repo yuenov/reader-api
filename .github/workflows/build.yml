@@ -35,7 +35,6 @@ jobs:
           MYNAME: ${{github.repository_owner}}
         run: |
           cd _book
-          echo "${TOKEN}"
           git config --global user.email "${MYEMAIL}"   
           git config --global user.name "${MYNAME}"   
           git init  
