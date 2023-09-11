@@ -1,4 +1,8 @@
+# API暂停对外访问，如果有任何需求可以通过邮件或者Telegram联系
+Email: yuenov@gmail.com </br>
+Telegram: https://t.me/twokingsl
 
+----
 # 阅小说App接口文档
 
 [阅小说iOS客户端源码](https://github.com/yuenov/reader-ios)
